@@ -25,7 +25,8 @@ object SessionManger {
     }
 
     fun accessToken(context: Context): String {
-        return "Bearer ".plus(context.manager().getString(ACCESS_TOKEN, "")!!)
+        val token = context.manager().getString(ACCESS_TOKEN, "")!!
+        return ("Bearer ".plus(token)).takeIf { token.isNotBlank() } ?: ""
     }
 
     fun refreshToken(context: Context): String {

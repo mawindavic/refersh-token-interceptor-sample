@@ -9,6 +9,7 @@ import com.mawinda.refresh_token_sample_app.BuildConfig
 object SessionManger {
 
     private const val ACCESS_TOKEN = "access_token"
+    private const val REFRESH_TOKEN = "refresh_token"
 
     private fun Context.manager(): SharedPreferences {
         val mainKey = MasterKey.Builder(this, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
@@ -24,10 +25,15 @@ object SessionManger {
     }
 
     fun accessToken(context: Context): String {
-        return context.manager().getString(ACCESS_TOKEN, "")!!
+        return "Bearer ".plus(context.manager().getString(ACCESS_TOKEN, "")!!)
     }
 
-    fun saveAccessToken(context: Context, accessToken: String) {
-        context.manager().edit().putString(ACCESS_TOKEN, accessToken).apply()
+    fun refreshToken(context: Context): String {
+        return context.manager().getString(REFRESH_TOKEN, "")!!
+    }
+
+    fun saveAccessToken(context: Context, accessToken: String, refreshToken: String) {
+        context.manager().edit().putString(ACCESS_TOKEN, accessToken)
+            .putString(REFRESH_TOKEN, refreshToken).apply()
     }
 }

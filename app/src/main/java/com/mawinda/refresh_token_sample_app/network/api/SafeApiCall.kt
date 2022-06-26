@@ -1,6 +1,7 @@
 package com.mawinda.refresh_token_sample_app.network.api
 
 import retrofit2.Response
+import timber.log.Timber
 
 sealed class Result<out R> {
     data class Success<out T>(val data: T?) : Result<T>()
@@ -17,6 +18,7 @@ abstract class SafeApiCall {
             }
 
         }catch (ex: Exception){
+            Timber.e(ex)
             Result.Error(ex)
         }
     }

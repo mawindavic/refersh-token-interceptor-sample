@@ -12,7 +12,7 @@ import java.io.IOException
 class RefreshTokenInterceptor(private val context: Context) : Interceptor {
 
     private val accessToken by lazy {
-        SessionManger.accessToken(context)
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM0ODUxMzE3LCJqdGkiOiJlOWNlY2MwYjcyZjA0NjVkYTYyYzkwMDNlNzdlYmQ4ZCIsInVzZXJfaWQiOjEyLCJyb2xlIjoiU1VQUExJRVIiLCJ1c2VybmFtZSI6Im5hcGh0YWxpOTE5QGdtYWlsLmNvbSJ9.TB9VoKba1FZ_7QK10BVVVsm9dJcWYw6FfZjWhfWgYAs"
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -24,8 +24,14 @@ class RefreshTokenInterceptor(private val context: Context) : Interceptor {
                 val (isSuccessful, msg) = refreshToken()
                 when (isSuccessful) {
                     true -> {
+
+                        //get new token
                         val newToken = SessionManger.accessToken(context)
                         val newRequest = chain.addAuthorisation(newToken)
+                        //close previous request
+                        response.close()
+
+                        //proceed
                         chain.proceed(newRequest)
                     }
                     else -> throw IOException(msg)

@@ -17,7 +17,7 @@ object SessionManger {
 
         return EncryptedSharedPreferences.create(
             this.applicationContext,
-            BuildConfig.APPLICATION_ID.plus("_session"),
+            BuildConfig.APPLICATION_ID.plus("_session_manager"),
             mainKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM

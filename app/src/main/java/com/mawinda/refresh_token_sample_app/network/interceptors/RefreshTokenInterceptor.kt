@@ -1,14 +1,15 @@
 package com.mawinda.refresh_token_sample_app.network.interceptors
 
+import android.content.Context
+import com.mawinda.refresh_token_sample_app.data.SessionManger
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class RefreshTokenInterceptor() : Interceptor {
+class RefreshTokenInterceptor(private val context: Context) : Interceptor {
 
     private val accessToken by lazy {
-        // TODO: Add logic to get token from local storage
-        ""
+        SessionManger.accessToken(context)
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -33,9 +34,11 @@ class RefreshTokenInterceptor() : Interceptor {
 
     private fun refreshToken(): String {
         // TODO: Add logic to refresh token
-        // TODO: Add Logic to store token locally
+        val newToken = ""
 
-        return ""
+        return newToken.also {
+            SessionManger.saveAccessToken(context = context, accessToken = it)
+        }
     }
 
 
